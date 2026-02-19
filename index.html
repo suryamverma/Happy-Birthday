@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🎉</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    overflow:hidden;
+    color:white;
+}
+
+.card{
+    width:90%;
+    max-width:400px;
+    padding:25px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+    font-size:1.8rem;
+    margin-bottom:10px;
+}
+
+.photo{
+    width:150px;
+    height:150px;
+    margin:15px auto;
+    border-radius:50%;
+    overflow:hidden;
+    border:4px solid white;
+    box-shadow:0 5px 20px rgba(0,0,0,0.4);
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.message{
+    font-size:0.95rem;
+    margin-bottom:15px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    background:white;
+    color:#764ba2;
+}
+
+button:hover{
+    background:#f0f0f0;
+}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="card">
+    <h1>🎂 Happy Birthday Muskan 🎉</h1>
+
+    <!-- Replace friend.jpg with your friend's photo -->
+    <div class="photo">
+        <img src="C:\Users\Suryam Verma\Pictures\Screenshots\Screenshot 2026-02-19 212519.png" alt="Friend Photo">
+    </div>
+
+    <p class="message">
+        Wishing you success, happiness, and unlimited fun this year! 🚀✨  
+        May your life shine brighter than these fireworks 🎆
+    </p>
+
+    <audio id="music" loop>
+        <!-- Replace birthday.mp3 with your music file -->
+        <source src="C:\Users\Suryam Verma\Desktop\anupam\happy.mp4" type="audio/mp3">
+    </audio>
+
+    <button onclick="startParty()">Start the Party 🎵🎆</button>
+</div>
+
+<script>
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+let partyStarted=false;
+
+function createFirework(x,y){
+    for(let i=0;i<60;i++){
+        particles.push({
+            x:x,
+            y:y,
+            speedX:(Math.random()-0.5)*7,
+            speedY:(Math.random()-0.5)*7,
+            alpha:1,
+            color:hsl(${Math.random()*360},100%,60%)
+        });
+    }
+}
+
+function animate(){
+    ctx.fillStyle="rgba(0,0,0,0.15)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach((p,i)=>{
+        ctx.globalAlpha=p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,3,0,Math.PI*2);
+        ctx.fillStyle=p.color;
+        ctx.fill();
+        p.x+=p.speedX;
+        p.y+=p.speedY;
+        p.alpha-=0.02;
+        if(p.alpha<=0) particles.splice(i,1);
+    });
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+function startParty(){
+    if(!partyStarted){
+        document.getElementById("music").play();
+        setInterval(()=>{
+            createFirework(Math.random()*canvas.width,Math.random()*canvas.height/2);
+        },700);
+        partyStarted=true;
+    }
+}
+</script>
+
+</body>
+</html>
